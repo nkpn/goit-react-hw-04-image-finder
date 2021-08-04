@@ -1,0 +1,25 @@
+body {
+  background: #e7ecf2;
+  font-family: Rubik;
+  font-size: 14px;
+  color: rgb(18, 34, 54);
+}
+
+img {
+  display: inline-block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

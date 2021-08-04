@@ -1,0 +1,43 @@
+.Searchbar {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  font-family: Rubik;
+
+  /* max-width: 1920px; */
+  height: 500px;
+  background-size: cover;
+  background-color: rgb(49, 184, 216);
+  background-image: url(../../images/architecture-cut.jpg);
+}
+
+.SearchFormButton {
+  background: white;
+  text-decoration: none;
+  width: 140px;
+  height: 45px;
+  border-radius: 40px;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+  text-transform: uppercase;
+  text-align: center;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.SearchFormButton:hover {
+  cursor: pointer;
+  background: #2ee59d;
+  box-shadow: 0 15px 20px rgba(46, 229, 157, 0.4);
+  color: white;
+  transition-property: background-color;
+  transition-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SearchFormInput {
+  width: 300px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+  margin-right: 10px;
+}

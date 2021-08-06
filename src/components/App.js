@@ -41,8 +41,8 @@ function App() {
 
     try {
       const images = await fetchImages({ searchQuery, page });
-      setImages([prevState => prevState.images, ...images.data.hits]);
-      setPage(page + 1);
+      setImages(prevImages => [...prevImages, ...images.data.hits]);
+      setPage(s => s + 1);
       setLoading(false);
 
       console.log(images);

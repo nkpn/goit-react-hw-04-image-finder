@@ -79,18 +79,16 @@ function App() {
       <Header />
       <Searchbar onSubmit={handleFormSubmit} />
       <Container>
-        {/* {errors ? (
-          <h2>{errors}</h2>
-        ) : (
-          <ImageGallery images={images} onImgClick={openModal} />
-        )}
-        {images.length > 0 && <Button onLoadClick={fetch} />}
+        <ImageGallery images={images} onImgClick={openModal} />
+
+        {/* {images.length > 0 && <Button onLoadClick={fetch} />} */}
+        <Button onLoadClick={fetch} />
         {loading && <CustomLoader />}
         {showModal && (
           <Modal onClose={toggleModal}>
             <img src={modalImage} alt="name" />
           </Modal>
-        )} */}
+        )}
       </Container>
       <ToastContainer />
     </>

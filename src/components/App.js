@@ -40,14 +40,8 @@ function App() {
     setLoading(true);
 
     try {
-      // const images = await fetchImages({ searchQuery, page });
-      // this.setState(prevState => ({
-      //   images: [...prevState.images, ...images.data.hits],
-      //   page: prevState.page + 1,
-      //   loading: false,
-      // }));
       const images = await fetchImages({ searchQuery, page });
-      setImages(prevState => prevState.images, ...images.data.hits);
+      setImages([prevState => prevState.images, ...images.data.hits]);
       setPage(page + 1);
       setLoading(false);
 
@@ -60,7 +54,6 @@ function App() {
     } catch (error) {
       setErrors(error.response);
       setLoading(false);
-      // this.setState({ errors: this.setState({ error }), loading: false });
     }
   };
 
@@ -81,8 +74,7 @@ function App() {
       <Container>
         <ImageGallery images={images} onImgClick={openModal} />
 
-        {/* {images.length > 0 && <Button onLoadClick={fetch} />} */}
-        <Button onLoadClick={fetch} />
+        {images.length > 0 && <Button onLoadClick={fetch} />}
         {loading && <CustomLoader />}
         {showModal && (
           <Modal onClose={toggleModal}>

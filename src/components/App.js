@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 //* Components
 import Header from './Header';
 import Container from './Container';
@@ -10,99 +10,90 @@ import { fetchImages } from '../services/imageAPI';
 import CustomLoader from './SpinnerLoader';
 import Button from './Button';
 
-class App extends Component {
-  state = {
-    images: [],
-    page: 1,
-    searchQuery: '',
-    loading: false,
-    status: 'idle',
-    showModal: false,
-    modalImage: '',
-  };
+function App() {
+  const [images, setImages] = useState([]);
+  const [page, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [modalImage, setModalImage] = useState('');
+  const [errors, setErrors] = useState(null);
 
-  componentDidUpdate(prevProps, prevState) {
-    const prevSearcQuery = prevState.searchQuery;
-    const newSearchQuery = this.state.searchQuery;
-
-    if (prevSearcQuery !== newSearchQuery) {
-      this.fetch();
+  useEffect(() => {
+    if (!searchQuery) {
+      return;
     }
-  }
+    fetch();
+  }, [searchQuery]);
 
-  handleFormSubmit = searchQuery => {
-    this.setState({
-      searchQuery: searchQuery.trim(),
-      page: 1,
-      images: [],
-      status: null,
-    });
+  const handleFormSubmit = searchQuery => {
+    setSearchQuery(searchQuery);
+    setPage(1);
+    setImages([]);
   };
 
-  fetch = async () => {
-    const { searchQuery, page } = this.state;
-
+  const fetch = async () => {
     if (!searchQuery) {
       return;
     }
 
-    this.setState({ loading: true });
+    setLoading(true);
 
     try {
+      // const images = await fetchImages({ searchQuery, page });
+      // this.setState(prevState => ({
+      //   images: [...prevState.images, ...images.data.hits],
+      //   page: prevState.page + 1,
+      //   loading: false,
+      // }));
       const images = await fetchImages({ searchQuery, page });
-      this.setState(prevState => ({
-        images: [...prevState.images, ...images.data.hits],
-        page: prevState.page + 1,
-        loading: false,
-      }));
+      setImages(prevState => prevState.images, ...images.data.hits);
+      setPage(page + 1);
+      setLoading(false);
+
       console.log(images);
+
       window.scrollTo({
         top: document.documentElement.scrollHeight,
         behavior: 'smooth',
       });
     } catch (error) {
-      this.setState({ errors: this.setState({ error }), loading: false });
+      setErrors(error.response);
+      setLoading(false);
+      // this.setState({ errors: this.setState({ error }), loading: false });
     }
   };
 
-  toggleModal = () => {
-    this.setState({
-      showModal: false,
-      modalImage: '',
-    });
+  const toggleModal = () => {
+    setShowModal(false);
+    setModalImage('');
   };
 
-  openModal = largeImageUrl => {
-    this.setState({
-      showModal: true,
-      modalImage: largeImageUrl,
-    });
+  const openModal = largeImageUrl => {
+    setShowModal(true);
+    setModalImage(largeImageUrl);
   };
 
-  render() {
-    const { images, errors, modalImage, showModal, loading } = this.state;
-    const { handleFormSubmit, toggleModal, openModal, fetch } = this;
-    return (
-      <>
-        <Header />
-        <Searchbar SubmitProps={handleFormSubmit} />
-        <Container>
-          {errors ? (
-            <h2>{errors}</h2>
-          ) : (
-            <ImageGallery images={images} onImgClick={openModal} />
-          )}
-          {images.length > 0 && <Button onLoadClick={fetch} />}
-          {loading && <CustomLoader />}
-          {showModal && (
-            <Modal onClose={toggleModal}>
-              <img src={modalImage} alt="name" />
-            </Modal>
-          )}
-        </Container>
-        <ToastContainer />
-      </>
-    );
-  }
+  return (
+    <>
+      <Header />
+      <Searchbar onSubmit={handleFormSubmit} />
+      <Container>
+        {/* {errors ? (
+          <h2>{errors}</h2>
+        ) : (
+          <ImageGallery images={images} onImgClick={openModal} />
+        )}
+        {images.length > 0 && <Button onLoadClick={fetch} />}
+        {loading && <CustomLoader />}
+        {showModal && (
+          <Modal onClose={toggleModal}>
+            <img src={modalImage} alt="name" />
+          </Modal>
+        )} */}
+      </Container>
+      <ToastContainer />
+    </>
+  );
 }
 export default App;
